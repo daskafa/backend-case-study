@@ -9,7 +9,7 @@ class ProviderConstants
     const SECOND_PROVIDER_URL = 'http://www.mocky.io/v2/5d47f235330000623fa3ebf7';
 
     const FORMATTED_TODO_KEYS = [
-        'taskName',
+        'task_name',
         'difficulty',
         'duration',
     ];

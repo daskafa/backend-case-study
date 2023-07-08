@@ -6,6 +6,8 @@ use App\Adapters\TodoListAdapter;
 use App\Constants\ProviderConstants;
 use App\ProviderApiRequests\FirstProviderApiRequest;
 use App\ProviderApiRequests\SecondProviderApiRequest;
+use App\Repositories\DeveloperTodoRepository;
+use App\Services\DeveloperTodoService;
 use Illuminate\Console\Command;
 
 class GetTodosFromProviders extends Command
@@ -33,8 +35,10 @@ class GetTodosFromProviders extends Command
     {
         $firstProviderApiRequest = new FirstProviderApiRequest(ProviderConstants::FIRST_PROVIDER_URL);
         $secondProviderApiRequest = new SecondProviderApiRequest(ProviderConstants::SECOND_PROVIDER_URL);
-
         $todoListAdapter = new TodoListAdapter($firstProviderApiRequest, $secondProviderApiRequest);
-        dd($todoListAdapter->getMergedFormattedTodos());
+
+        $developerTodoRepository = new DeveloperTodoRepository();
+        (new DeveloperTodoService($developerTodoRepository))
+            ->saveTodos($todoListAdapter->getMergedFormattedTodos());
     }
 }
