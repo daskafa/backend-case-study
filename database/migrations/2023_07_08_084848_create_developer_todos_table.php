@@ -17,7 +17,7 @@ return new class extends Migration
             $table->mediumIncrements('id');
             $table->string('task_name');
             $table->unsignedTinyInteger('difficulty');
-            $table->unsignedTinyInteger('duration');
+            $table->unsignedTinyInteger('duration')->comment('In hours');
         });
     }
 

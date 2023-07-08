@@ -40,5 +40,7 @@ class GetTodosFromProviders extends Command
         $developerTodoRepository = new DeveloperTodoRepository();
         (new DeveloperTodoService($developerTodoRepository))
             ->saveTodos($todoListAdapter->getMergedFormattedTodos());
+
+        $this->info('Developer todos saved successfully');
     }
 }
