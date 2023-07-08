@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Adapters\TodoListAdapter;
+use App\Constants\ProviderConstants;
+use App\ProviderApiRequests\FirstProviderApiRequest;
+use App\ProviderApiRequests\SecondProviderApiRequest;
 use Illuminate\Console\Command;
 
 class GetTodosFromProviders extends Command
@@ -27,6 +31,10 @@ class GetTodosFromProviders extends Command
      */
     public function handle()
     {
+        $firstProviderApiRequest = new FirstProviderApiRequest(ProviderConstants::FIRST_PROVIDER_URL);
+        $secondProviderApiRequest = new SecondProviderApiRequest(ProviderConstants::SECOND_PROVIDER_URL);
 
+        $todoListAdapter = new TodoListAdapter($firstProviderApiRequest, $secondProviderApiRequest);
+        dd($todoListAdapter->getMergedFormattedTodos());
     }
 }

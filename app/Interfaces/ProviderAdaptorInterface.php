@@ -5,5 +5,5 @@ interface ProviderAdaptorInterface
 {
     public function getTodos();
 
-    public function formatTodos($todos);
+    public function getFormattedTodos();
 }

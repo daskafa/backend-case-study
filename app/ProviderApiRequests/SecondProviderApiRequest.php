@@ -6,7 +6,7 @@ use App\Constants\ProviderConstants;
 use App\Interfaces\ProviderAdaptorInterface;
 use Illuminate\Support\Facades\Http;
 
-class FirstProviderApiRequest implements ProviderAdaptorInterface
+class SecondProviderApiRequest implements ProviderAdaptorInterface
 {
     private $providerUrl;
 
@@ -26,11 +26,13 @@ class FirstProviderApiRequest implements ProviderAdaptorInterface
 
         $formattedTodos = [];
         foreach ($todos as $todo) {
-            $formattedTodos[] = [
-                ProviderConstants::FORMATTED_TODO_KEYS[0] => $todo['id'],
-                ProviderConstants::FORMATTED_TODO_KEYS[1] => $todo['zorluk'],
-                ProviderConstants::FORMATTED_TODO_KEYS[2] => $todo['sure'],
-            ];
+            foreach ($todo as $key => $value) { // todo: isimlendirme daha iyi olabilir
+                $formattedTodos[] = [
+                    ProviderConstants::FORMATTED_TODO_KEYS[0] => $key,
+                    ProviderConstants::FORMATTED_TODO_KEYS[1] => $value['level'],
+                    ProviderConstants::FORMATTED_TODO_KEYS[2] => $value['estimated_duration'],
+                ];
+            }
         }
 
         return $formattedTodos;
