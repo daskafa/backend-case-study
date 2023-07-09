@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Developer;
+use Exception;
 use Illuminate\Database\Seeder;
 
 class DeveloperSeeder extends Seeder
@@ -46,6 +47,10 @@ class DeveloperSeeder extends Seeder
             $developerInformationArr[$key]['created_at'] = now();
         }
 
-        Developer::insert($developerInformationArr);
+        $developerBulkInsert = Developer::insert($developerInformationArr);
+
+        if (!$developerBulkInsert) {
+            $this->command->error('Developer seeder failed.');
+        }
     }
 }

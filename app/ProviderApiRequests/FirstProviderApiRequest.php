@@ -4,6 +4,7 @@ namespace App\ProviderApiRequests;
 
 use App\Constants\ProviderConstants;
 use App\Interfaces\ProviderAdaptorInterface;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class FirstProviderApiRequest implements ProviderAdaptorInterface
@@ -17,7 +18,13 @@ class FirstProviderApiRequest implements ProviderAdaptorInterface
 
     public function getTodos()
     {
-        return Http::get($this->providerUrl)->json();
+        $response = Http::get($this->providerUrl);
+
+        if ($response->failed()) {
+            throw new Exception('First provider api request failed.');
+        }
+
+        return $response->json();
     }
 
     public function getFormattedTodos()

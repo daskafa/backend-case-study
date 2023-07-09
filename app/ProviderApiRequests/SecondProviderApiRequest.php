@@ -4,6 +4,7 @@ namespace App\ProviderApiRequests;
 
 use App\Constants\ProviderConstants;
 use App\Interfaces\ProviderAdaptorInterface;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class SecondProviderApiRequest implements ProviderAdaptorInterface
@@ -17,7 +18,13 @@ class SecondProviderApiRequest implements ProviderAdaptorInterface
 
     public function getTodos()
     {
-        return Http::get($this->providerUrl)->json();
+        $response = Http::get($this->providerUrl);
+
+        if ($response->failed()) {
+            throw new Exception('Second provider api request failed.');
+        }
+
+        return $response->json();
     }
 
     public function getFormattedTodos()
@@ -26,7 +33,7 @@ class SecondProviderApiRequest implements ProviderAdaptorInterface
 
         $formattedTodos = [];
         foreach ($todos as $todo) {
-            foreach ($todo as $key => $value) { // todo: isimlendirme daha iyi olabilir
+            foreach ($todo as $key => $value) {
                 $formattedTodos[] = [
                     ProviderConstants::FORMATTED_TODO_KEYS[0] => $key,
                     ProviderConstants::FORMATTED_TODO_KEYS[1] => $value['level'],
